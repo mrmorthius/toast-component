@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../Button";
 import styles from "./ToastPlayground.module.css";
 import ToastShelf from "../ToastShelf/ToastShelf";
-import { v4 as uuidv4 } from "uuid";
+import { ToastsContex } from "../ToastProvider/ToastProvider";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
@@ -10,39 +10,31 @@ function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variantType, setVariantType] = React.useState("");
   const [showToast, setToast] = React.useState(false);
-
-  const toggle = { setToast };
-  const [toasts, setToasts] = React.useState([]);
-  const toastPost = { toasts, setToasts };
   const id = React.useId();
+  const { toasts, setToasts } = React.useContext(ToastsContex);
 
-  // React.useEffect(() => {
-  //   console.log(toasts);
-  // }, [toasts]);
+  const submitHandler = (event) => {
+    event.preventDefault();
+    setToast(true);
+    setToasts([
+      ...toasts,
+      {
+        id: crypto.randomUUID(),
+        message: message,
+        variant: variantType,
+      },
+    ]);
+    setMessage("");
+    setVariantType("notice");
+  };
 
   return (
-    <form
-      className={styles.wrapper}
-      onSubmit={(event) => {
-        event.preventDefault();
-        setToast(true);
-        setToasts([
-          ...toasts,
-          {
-            id: uuidv4(),
-            message: message,
-            variant: variantType,
-          },
-        ]);
-        setMessage("");
-        setVariantType("notice");
-      }}
-    >
+    <form className={styles.wrapper} onSubmit={submitHandler}>
       <header>
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-      {showToast && <ToastShelf toastPost={toastPost}>{message}</ToastShelf>}
+      {showToast && <ToastShelf>{message}</ToastShelf>}
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>

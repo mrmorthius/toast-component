@@ -1,4 +1,5 @@
 import React from "react";
+import { ToastsContex } from "../ToastProvider/ToastProvider";
 import {
   AlertOctagon,
   AlertTriangle,
@@ -6,7 +7,6 @@ import {
   Info,
   X,
 } from "react-feather";
-
 import VisuallyHidden from "../VisuallyHidden";
 import styles from "./Toast.module.css";
 
@@ -17,11 +17,10 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({ id, variant, toastPost, children }) {
+function Toast({ id, variant, children }) {
   const Icon = ICONS_BY_VARIANT[variant];
-  const { toasts, setToasts } = toastPost;
+  const { dismissHandler } = React.useContext(ToastsContex);
 
-  // console.log(`${styles.toast} ${styles[variant]}`);
   return (
     <div className={`${styles.toast} ${styles[variant]}`}>
       <div className={styles.iconContainer}>
@@ -31,11 +30,7 @@ function Toast({ id, variant, toastPost, children }) {
       <button
         className={styles.closeButton}
         onClick={() => {
-          console.log(id);
-          const updatedList = toasts.filter((item) => {
-            return item.id != id;
-          });
-          setToasts(updatedList);
+          dismissHandler(id);
         }}
       >
         <X size={24} />
