@@ -8,10 +8,25 @@ const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
   const [message, setMessage] = React.useState("");
-  const [variantType, setVariantType] = React.useState("");
+  const [variantType, setVariantType] = React.useState("notice");
   const [showToast, setToast] = React.useState(false);
   const id = React.useId();
   const { toasts, setToasts } = React.useContext(ToastsContex);
+
+  React.useEffect(() => {
+    function closeModal(event) {
+      if (event.code === "Escape") {
+        if (toasts.length >= 1) {
+          setToasts([]);
+        }
+      }
+    }
+    window.addEventListener("keydown", closeModal);
+
+    return () => {
+      window.removeEventListener("keydown", closeModal);
+    };
+  }, [toasts]);
 
   const submitHandler = (event) => {
     event.preventDefault();
