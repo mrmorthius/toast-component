@@ -13,20 +13,20 @@ function ToastPlayground() {
   const id = React.useId();
   const { toasts, setToasts } = React.useContext(ToastsContex);
 
-  React.useEffect(() => {
-    function closeModal(event) {
-      if (event.code === "Escape") {
-        if (toasts.length >= 1) {
-          setToasts([]);
-        }
-      }
-    }
-    window.addEventListener("keydown", closeModal);
+  // React.useEffect(() => {
+  //   function closeModal(event) {
+  //     if (event.code === "Escape") {
+  //       if (toasts.length >= 1) {
+  //         setToasts([]);
+  //       }
+  //     }
+  //   }
+  //   window.addEventListener("keydown", closeModal);
 
-    return () => {
-      window.removeEventListener("keydown", closeModal);
-    };
-  }, [toasts]);
+  //   return () => {
+  //     window.removeEventListener("keydown", closeModal);
+  //   };
+  // }, [toasts]);
 
   const submitHandler = (event) => {
     event.preventDefault();
