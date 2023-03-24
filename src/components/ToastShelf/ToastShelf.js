@@ -11,7 +11,13 @@ function ToastShelf({ children }) {
       {toasts &&
         toasts.map(({ id, variant, message }) => {
           return (
-            <li className={styles.toastWrapper} key={id}>
+            <li
+              className={styles.toastWrapper}
+              key={id}
+              role="region"
+              aria-live="polite"
+              aria-label="Notification"
+            >
               <Toast id={id} variant={variant}>
                 {message}
               </Toast>
